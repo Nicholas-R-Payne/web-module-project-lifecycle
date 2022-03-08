@@ -11,7 +11,7 @@ export default class App extends React.Component {
   fetchAllTodos = () => {
     axios.get(URL)
       .then(res => {
-        console.log(res)
+        this.setState({ ...this.state, todos: res.data.data })
       })
       .catch(err => {
         console.log(err)
@@ -19,7 +19,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-
+    this.fetchAllTodos()
   }
 
   render() {
@@ -28,8 +28,11 @@ export default class App extends React.Component {
         <div id='error'>Error: No error here</div>
         <div id='todos'>
           <h2>Todos:</h2>
-          <div>Walk the dog</div>
-          <div>Learn React</div>
+          {
+            this.state.todos.map(td => {
+              return <div key={td.id}>{td.name}</div>
+            })
+          }
         </div>
         <form id='todoForm'>
           <input type='text' placeholder='Type todo' />
