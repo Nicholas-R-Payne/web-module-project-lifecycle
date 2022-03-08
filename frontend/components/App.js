@@ -8,6 +8,7 @@ export default class App extends React.Component {
     todos: [],
     error: '',
     todoNameInput: '',
+    displayCompleted: '',
   }
 
   onInputChange = evt => {
@@ -53,6 +54,10 @@ export default class App extends React.Component {
       .catch(this.setResponseError)
   }
 
+  toggleDisplayCompleted = () => {
+    this.setState({ ...this.state, displayCompleted: !this.state.displayCompleted })
+  }
+
   componentDidMount() {
     this.fetchAllTodos()
   }
@@ -72,8 +77,8 @@ export default class App extends React.Component {
         <form id='todoForm' onSubmit={this.onFormSubmit}>
           <input value={this.state.todoNameInput} onChange={this.onInputChange} type='text' placeholder='Type todo' />
           <input type='submit'></input>
-          <button>Hide Completed</button>
         </form>
+        <button onClick={this.toggleDisplayCompleted}>{this.state.displayCompleted ? 'Hide' : 'Show'} Completed</button>
       </div>
     )
   }
