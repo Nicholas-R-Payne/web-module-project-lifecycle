@@ -17,15 +17,15 @@ export default class App extends React.Component {
 
   resetForm = () => this.setState({ ...this.state, todoNameInput: '' })
 
+  setResponseError = err => this.setState({ ...this.state, error: err.response.data.message })
+
   postNewTodo = () => {
     axios.post(URL, { name: this.state.todoNameInput })
       .then(() => {
         this.fetchAllTodos()
         this.resetForm()
       })
-      .catch(err => {
-        this.setState({ ...this.state, error: err.response.data.message })
-      })
+      .catch(this.setResponseError)
   }
 
   onFormSubmit = evt => {
@@ -38,9 +38,7 @@ export default class App extends React.Component {
       .then(res => {
         this.setState({ ...this.state, todos: res.data.data })
       })
-      .catch(err => {
-        this.setState({ ...this.state, error: err.response.data.message })
-      })
+      .catch(this.setResponseError)
   }
 
   componentDidMount() {
